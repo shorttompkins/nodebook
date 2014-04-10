@@ -1,0 +1,27 @@
+{
+  "name": "myapp",
+  "description": "A clone of the imgur.com website",
+  "version": "0.0.1",
+  "author": "Jason Krol",
+  "engines": {
+    "node": "0.10.x"
+  },
+  "port": "7500",
+  "scripts": {
+    "start": "node server.js",
+    "test": "// MOCHA COMMAND TO TEST HERE"
+  },
+  "dependencies": {
+    "express": "~3.4.2",
+    "mongoose": "~3.8.3",
+    "handlebars-runtime": "~1.0.12",
+    "express3-handlebars": "~0.5.0",
+    "MD5": "~1.2.0"
+  },
+  "devDependencies": {
+    "chai": "~1.9.0",
+    "sinon": "~1.8.1",
+    "sinon-chai": "~2.5.0",
+    "proxyquire": "~0.5.2"
+  }
+}
