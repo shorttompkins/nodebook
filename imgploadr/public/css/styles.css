@@ -1,0 +1,6 @@
+a, a:hover, a:visited, a:active { color: #303030; text-decoration: none; }
+.panel-primary { border-color: #000000; }
+.panel-primary>.panel-heading { background-color: #303030; border-color: #000000; }
+.media-list>.media { padding-bottom: 1em; border-bottom: dotted 1px #c0c0c0; }
+.media-list>.media:last-child { padding-bottom: 0em; border-bottom: none; }
+
