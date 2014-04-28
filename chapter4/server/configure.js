@@ -1,7 +1,8 @@
 var connect = require('connect'),
     path = require('path'),
     routes = require('./routes'),
-    exphbs = require('express3-handlebars');
+    exphbs = require('express3-handlebars'),
+    moment = require('moment');
 
 module.exports = function(app) {
     app.engine('handlebars', exphbs.create({
@@ -13,7 +14,7 @@ module.exports = function(app) {
 
     app.use(connect.logger('dev'));
     app.use(connect.bodyParser({
-        uploadDir:path.join(__dirname, 'public/upload/temp')
+        uploadDir:path.join(__dirname, '../public/upload/temp')
     }));
     app.use(connect.json());
     app.use(connect.urlencoded());
