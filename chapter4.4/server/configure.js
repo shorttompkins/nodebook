@@ -24,7 +24,7 @@ module.exports = function(app) {
     // app.use(connect.json());
     // app.use(connect.urlencoded());
     app.use(bodyParser({
-        uploadDir:path.join(__dirname, 'public/upload/temp')
+        uploadDir:path.join(__dirname, '../public/upload/temp')
     }));
     // app.use(connect.methodOverride());
     app.use(methodOverride());
