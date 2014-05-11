@@ -11,6 +11,7 @@ module.exports = function(app) {
         partialsDir: [app.get('views') + '/partials'],
         helpers: {
             timeago: function(timestamp) {
+                console.log(timestamp);
                 return moment(timestamp).startOf('minute').fromNow();
             }
         }
@@ -18,19 +19,20 @@ module.exports = function(app) {
     app.set('view engine', 'handlebars');
 
     app.use(connect.logger('dev'));
-    app.use(connect.bodyParser({uploadDir:path.join(__dirname, '../public/upload/temp')}));
+    app.use(connect.bodyParser({
+        uploadDir:path.join(__dirname, '../public/upload/temp')
+    }));
     app.use(connect.json());
     app.use(connect.urlencoded());
     app.use(connect.methodOverride());
     app.use(connect.cookieParser('some-secret-value-here'));
     app.use(app.router);
-    app.use('/public/', connect['static'](path.join(__dirname, '../public')));
+    app.use('/public/', connect.static(path.join(__dirname, '../public')));
 
     if ('development' === app.get('env')) {
         app.use(connect.errorHandler());
     }
 
-    //routes list:
     routes.initialize(app);
 
     return app;
