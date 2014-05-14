@@ -1,4 +1,4 @@
-module.exports = function(callback) {
+module.exports = function() {
     var stats = {
         images:     0,
         comments:   0,

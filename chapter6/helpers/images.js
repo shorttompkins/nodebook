@@ -1,5 +1,5 @@
 module.exports = {
-    popular: function(callback) {
+    popular: function() {
         var images = [
             {
                 uniqueId:       1,

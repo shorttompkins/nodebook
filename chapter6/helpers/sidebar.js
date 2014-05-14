@@ -9,5 +9,5 @@ module.exports = function(viewModel, callback){
         comments: Comments.newest()
     };
 
-    callback(null, viewModel);
+    callback(viewModel);
 };

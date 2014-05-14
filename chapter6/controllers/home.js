@@ -1,11 +1,11 @@
-//var sidebar = require('../helpers/sidebar');
+var sidebar = require('../helpers/sidebar');
 
 module.exports = {
     index: function(req, res) {
         var viewModel = {
             images: [
                 {
-                    uniqueId:            1,
+                    uniqueId:       1,
                     title:          'Sample Image 1',
                     description:    '',
                     filename:       'sample1.jpg',
@@ -13,7 +13,7 @@ module.exports = {
                     likes:          0,
                     timestamp:      Date.now
                 }, {
-                    uniqueId:            2,
+                    uniqueId:       2,
                     title:          'Sample Image 2',
                     description:    '',
                     filename:       'sample2.jpg',
@@ -21,7 +21,7 @@ module.exports = {
                     likes:          0,
                     timestamp:      Date.now
                 }, {
-                    uniqueId:            3,
+                    uniqueId:       3,
                     title:          'Sample Image 3',
                     description:    '',
                     filename:       'sample3.jpg',
@@ -29,7 +29,7 @@ module.exports = {
                     likes:          0,
                     timestamp:      Date.now
                 }, {
-                    uniqueId:            4,
+                    uniqueId:       4,
                     title:          'Sample Image 4',
                     description:    '',
                     filename:       'sample4.jpg',
@@ -40,8 +40,8 @@ module.exports = {
             ]
         };
 
-        //sidebar(viewModel, function(err, viewModel) {
+        sidebar(viewModel, function(viewModel) {
             res.render('index', viewModel);
-        //});
+        });
     }
 };

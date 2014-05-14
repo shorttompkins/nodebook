@@ -1,5 +1,5 @@
 module.exports = {
-    newest: function(callback) {
+    newest: function() {
         var comments = [
             {
                 image_id:   1,
