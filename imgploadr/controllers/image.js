@@ -107,6 +107,5 @@ module.exports = {
                 res.redirect('/images/' + image.uniqueId + '#' + comment._id);
             });
         });
-
     }
 };
