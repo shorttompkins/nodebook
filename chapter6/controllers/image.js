@@ -54,7 +54,7 @@ module.exports = {
                 fs.rename(tempPath, targetPath, function(err) {
                     if (err) throw err;
 
-                    res.redirect('/images/99');
+                    res.redirect('/images/' + imgUrl);
                 });
             } else {
                 fs.unlink(tempPath, function () {
