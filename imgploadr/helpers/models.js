@@ -7,6 +7,22 @@ var mongoose = require('mongoose'),
     path = require('path'),
     moment = require('moment');
 
+
+var Img = new Schema({
+    title:          { type: String },
+    description:    { type: String },
+    filename:       { type: String },
+    views:          { type: Number, 'default': 0 },
+    likes:          { type: Number, 'default': 0 },
+    timestamp:      { type: Date, 'default': Date.now }
+});
+
+Img.virtual('uniqueId').get(function() {
+    return this.filename.replace(path.extname(this.filename), '');
+});
+
+
+
 var Comment = new Schema({
     image_id:   { type: ObjectId },
     email:      { type: String },
@@ -25,22 +41,7 @@ Comment.virtual('image').set(function(image){
     return this._image;
 });
 
-var Img = new Schema({
-    title:          { type: String },
-    description:    { type: String },
-    filename:       { type: String },
-    views:          { type: Number, 'default': 0 },
-    likes:          { type: Number, 'default': 0 },
-    timestamp:      { type: Date, 'default': Date.now }
-});
 
-Img.virtual('uniqueId').get(function() {
-    return this.filename.replace(path.extname(this.filename), '');
-});
-
-Img.virtual('timestampAgo').get(function() {
-    return moment(this.timestamp).startOf('minute').fromNow();
-});
 
 module.exports = {
     Comment: mongoose.model('Comment', Comment),

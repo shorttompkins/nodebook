@@ -4,7 +4,8 @@ module.exports = {
     },
     create: function(req, res) {
         res.send('The image:create POST controller');
-        res.redirect('/images/1');    },
+        res.redirect('/images/1');
+    },
     like: function(req, res) {
         res.send('The image:like POST controller');
     },

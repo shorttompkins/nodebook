@@ -11,9 +11,9 @@ module.exports = {
             images: {}
         };
 
-        sidebar(viewModel, function(err, viewModel) {
-            Images.newest(function(err, images) {
-                viewModel.images = images;
+        Images.newest(function(err, images) {
+            viewModel.images = images;
+            sidebar(viewModel, function(err, viewModel) {
                 res.render('index', viewModel);
             });
         });

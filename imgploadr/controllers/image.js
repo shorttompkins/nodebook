@@ -22,9 +22,9 @@ module.exports = {
                 viewModel.image.views = viewModel.image.views + 1;
                 viewModel.image.uniqueId = req.params.image_id;
 
-                sidebar(viewModel, function(err, viewModel) {
-                    models.Comment.find({ image_id: images[0]._id}, {}, { sort: { 'timestamp': 1 }}, function(err, comments){
-                        viewModel.comments = comments;
+                models.Comment.find({ image_id: images[0]._id}, {}, { sort: { 'timestamp': 1 }}, function(err, comments){
+                    viewModel.comments = comments;
+                    sidebar(viewModel, function(err, viewModel) {
                         res.render('image', viewModel);
                     });
                 });
@@ -107,6 +107,5 @@ module.exports = {
                 res.redirect('/images/' + image.uniqueId + '#' + comment._id);
             });
         });
-
     }
 };
