@@ -36,7 +36,13 @@ module.exports = {
                     );
 
                     // increment the views counter:
-                    models.Image.update({ _id: images[0]._id },{ $inc: { 'views': 1} });
+                    models.Image.update(
+                        { _id: images[0]._id },
+                        { $inc: { 'views': 1} },
+                        function(err, updated) {
+                            if (err) throw err;
+                        }
+                    );
                 } else {
                     res.redirect('/');
                 }

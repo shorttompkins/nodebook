@@ -21,16 +21,24 @@ module.exports = function(callback) {
             models.Image.aggregate({ $group : {
                 _id : '1',
                 viewsTotal : { $sum : '$views' }
-            }}, function(err, result){
-                callback(null, result[0].viewsTotal);
+            }}, function(err, result) {
+                var viewsTotal = 0;
+                if (result.length > 0) {
+                    viewsTotal += result[0].viewsTotal;
+                }
+                callback(null, viewsTotal);
             });
         },
         function(callback) {
             models.Image.aggregate({ $group : {
                 _id : '1',
                 likesTotal : { $sum : '$likes' }
-            }}, function(err, result){
-                callback(null, result[0].likesTotal);
+            }}, function (err, result) {
+                var likesTotal = 0;
+                if (result.length > 0) {
+                    likesTotal += result[0].likesTotal;
+                }
+                callback(null, likesTotal);
             });
         }
     ], function(err, results){
