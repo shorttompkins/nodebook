@@ -1,7 +1,7 @@
 /* jshint node: true, camelcase: false */
 'use strict';
 
-var models = require('../helpers/models'),
+var models = require('../models'),
     path = require('path'),
     fs = require('fs'),
     md5 = require('MD5'),

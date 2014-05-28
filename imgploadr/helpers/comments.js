@@ -1,7 +1,7 @@
 /* jshint node: true, camelcase: false */
 'use strict';
 
-var models = require('./models'),
+var models = require('../models'),
     async = require('async');
 
 module.exports = {

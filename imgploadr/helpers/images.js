@@ -1,8 +1,7 @@
 /* jshint node: true */
 'use strict';
 
-var models = require('./models'),
-    path = require('path');
+var models = require('../models');
 
 module.exports = {
     newest: function(callback) {
