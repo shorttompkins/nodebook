@@ -12,35 +12,35 @@ module.exports = {
         var viewModel = {
             comments: []
         };
-        models.Image.find({ filename: { $regex: req.params.image_id } }, function(err, images) {
-            if (err) throw err;
-            if (images.length > 0) {
+        models.Image.find({ filename: { $regex: req.params.image_id } },
+            function(err, images) {
+                if (err) throw err;
+                if (images.length > 0) {
 
-                // build the view model - include the image, comments, etc.
-                viewModel.image = images[0];
+                    // build the view model - include the image, comments, etc.
+                    viewModel.image = images[0];
 
-                viewModel.image.views = viewModel.image.views + 1;
-                viewModel.image.uniqueId = req.params.image_id;
+                    viewModel.image.views = viewModel.image.views + 1;
+                    viewModel.image.uniqueId = req.params.image_id;
 
-                models.Comment.find({ image_id: images[0]._id}, {}, { sort: { 'timestamp': 1 }}, function(err, comments){
-                    viewModel.comments = comments;
-                    sidebar(viewModel, function(err, viewModel) {
-                        res.render('image', viewModel);
-                    });
-                });
+                    models.Comment.find(
+                        { image_id: images[0]._id},
+                        {},
+                        { sort: { 'timestamp': 1 }},
+                        function(err, comments){
+                            viewModel.comments = comments;
+                            sidebar(viewModel, function(err, viewModel) {
+                                res.render('image', viewModel);
+                            });
+                        }
+                    );
 
-                // increment the views counter:
-                models.Image.update(
-                    { _id: images[0]._id },
-                    { $inc: { 'views': 1} },
-                    function(err, updated) {
-                        if (err) throw err;
-                    }
-                );
-            } else {
-                res.redirect('/');
-            }
-        });
+                    // increment the views counter:
+                    models.Image.update({ _id: images[0]._id },{ $inc: { 'views': 1} });
+                } else {
+                    res.redirect('/');
+                }
+            });
     },
     create: function(req, res) {
         var saveImage = function() {
@@ -76,6 +76,7 @@ module.exports = {
                     } else {
                         fs.unlink(tempPath, function () {
                             if (err) throw err;
+
                             res.json(500, {error: 'Only image files are allowed.'});
                         });
                     }
@@ -86,23 +87,34 @@ module.exports = {
         saveImage();
     },
     like: function(req, res) {
-        models.Image.findOne({ filename: { $regex: req.params.image_id } }, function(err, image) {
-            image.likes = image.likes + 1;
-            image.save(function(err) {
-                if (err) {
-                    res.json(err);
-                } else {
-                    res.json({ likes: image.likes });
-                }
+        models.Image.findOne({ filename: { $regex: req.params.image_id } },
+            function(err, image) {
+                image.likes = image.likes + 1;
+                image.save(function(err) {
+                    if (err) {
+                        res.json(err);
+                    } else {
+                        res.json({ likes: image.likes });
+                    }
+                });
             });
-        });
     },
     comment: function(req, res) {
-        models.Image.findOne({ filename: { $regex: req.params.image_id } }, function(err, image) {
-            var newComment = new models.Comment(req.body);
-            newComment.gravatar = md5(newComment.email);
-            newComment.image_id = image._id;
-            newComment.save(function(err, comment) {
+        models.Image.findOne({ filename: { $regex: req.params.image_id } },
+            function(err, image) {
+                var newComment = new models.Comment(req.body);
+                newComment.gravatar = md5(newComment.email);
+                newComment.image_id = image._id;
+                newComment.save(function(err, comment) {
+                    if (err) throw err;
+
+                    res.redirect('/images/' + image.uniqueId + '#' + comment._id);
+                });
+            });
+    },
+    remove: function(req, res) {
+        models.Image.findOne({ filename: { $regex: req.params.image_id } },
+            function(err, image) {
                 if (err) throw err;
                 res.redirect('/images/' + image.uniqueId + '#' + comment._id);
             });
