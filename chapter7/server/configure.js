@@ -11,7 +11,6 @@ module.exports = function(app) {
         partialsDir: [app.get('views') + '/partials'],
         helpers: {
             timeago: function(timestamp) {
-                console.log(timestamp);
                 return moment(timestamp).startOf('minute').fromNow();
             }
         }
