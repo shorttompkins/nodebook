@@ -1,46 +1,37 @@
 /* jshint node: true, camelcase: false */
 'use strict';
 
-var models = require('../models'),
+var Models = require('../models'),
     path = require('path'),
     fs = require('fs'),
-    md5 = require('MD5'),
+    MD5 = require('MD5'),
     sidebar = require('../helpers/sidebar');
 
 module.exports = {
     index: function(req, res) {
         var viewModel = {
+            image: {},
             comments: []
         };
-        models.Image.find({ filename: { $regex: req.params.image_id } },
-            function(err, images) {
-                if (err) throw err;
-                if (images.length > 0) {
 
-                    // build the view model - include the image, comments, etc.
-                    viewModel.image = images[0];
+        Models.Image.findOne({ filename: { $regex: req.params.image_id } },
+            function(err, image) {
+                if (err) { throw err; }
+                if (image) {
 
-                    viewModel.image.views = viewModel.image.views + 1;
-                    viewModel.image.uniqueId = req.params.image_id;
+                    image.views = image.views + 1;
+                    viewModel.image = image;
+                    image.save();
 
-                    models.Comment.find(
-                        { image_id: images[0]._id},
+                    Models.Comment.find(
+                        { image_id: image._id},
                         {},
                         { sort: { 'timestamp': 1 }},
                         function(err, comments){
                             viewModel.comments = comments;
-                            sidebar(viewModel, function(err, viewModel) {
+                            sidebar(viewModel, function(viewModel) {
                                 res.render('image', viewModel);
                             });
-                        }
-                    );
-
-                    // increment the views counter:
-                    models.Image.update(
-                        { _id: images[0]._id },
-                        { $inc: { 'views': 1} },
-                        function(err, updated) {
-                            if (err) throw err;
                         }
                     );
                 } else {
@@ -57,7 +48,7 @@ module.exports = {
                 imgUrl += possible.charAt(Math.floor(Math.random() * possible.length));
             }
 
-            models.Image.find({ filename: imgUrl }, function(err, images) {
+            Models.Image.find({ filename: imgUrl }, function(err, images) {
                 if (images.length > 0) {
                     saveImage();
                 } else {
@@ -67,9 +58,9 @@ module.exports = {
 
                     if (ext === '.png' || ext === '.jpg' || ext === '.jpeg' || ext === '.gif') {
                         fs.rename(tempPath, targetPath, function(err) {
-                            if (err) throw err;
+                            if (err) { throw err; }
 
-                            var newImg = new models.Image({
+                            var newImg = new Models.Image({
                                 title: req.body.title,
                                 filename: imgUrl + ext,
                                 description: req.body.description
@@ -81,7 +72,7 @@ module.exports = {
                         });
                     } else {
                         fs.unlink(tempPath, function () {
-                            if (err) throw err;
+                            if (err) { throw err; }
 
                             res.json(500, {error: 'Only image files are allowed.'});
                         });
@@ -93,48 +84,56 @@ module.exports = {
         saveImage();
     },
     like: function(req, res) {
-        models.Image.findOne({ filename: { $regex: req.params.image_id } },
+        Models.Image.findOne({ filename: { $regex: req.params.image_id } },
             function(err, image) {
-                image.likes = image.likes + 1;
-                image.save(function(err) {
-                    if (err) {
-                        res.json(err);
-                    } else {
-                        res.json({ likes: image.likes });
-                    }
-                });
+                if (!err && image) {
+                    image.likes = image.likes + 1;
+                    image.save(function(err) {
+                        if (err) {
+                            res.json(err);
+                        } else {
+                            res.json({ likes: image.likes });
+                        }
+                    });
+                }
             });
     },
     comment: function(req, res) {
-        models.Image.findOne({ filename: { $regex: req.params.image_id } },
+        Models.Image.findOne({ filename: { $regex: req.params.image_id } },
             function(err, image) {
-                var newComment = new models.Comment(req.body);
-                newComment.gravatar = md5(newComment.email);
-                newComment.image_id = image._id;
-                newComment.save(function(err, comment) {
-                    if (err) throw err;
+                if (!err && image) {
+                    var newComment = new Models.Comment(req.body);
+                    newComment.gravatar = MD5(newComment.email);
+                    newComment.image_id = image._id;
+                    newComment.save(function(err, comment) {
+                        if (err) { throw err; }
 
-                    res.redirect('/images/' + image.uniqueId + '#' + comment._id);
-                });
+                        res.redirect('/images/' + image.uniqueId + '#' + comment._id);
+                    });
+                } else {
+                    res.redirect('/');
+                }
             });
     },
     remove: function(req, res) {
-        models.Image.findOne({ filename: { $regex: req.params.image_id } },
+        Models.Image.findOne({ filename: { $regex: req.params.image_id } },
             function(err, image) {
-                if (err) throw err;
+                if (err) { throw err; }
 
-                fs.unlink(path.resolve('./public/upload/' + image.filename), function(err) {
-                    if (err) throw err;
+                fs.unlink(path.resolve('./public/upload/' + image.filename),
+                    function(err) {
+                        if (err) { throw err; }
 
-                    models.Comment.remove({ image_id: image._id}, function(err) {
-                        image.remove(function(err) {
-                            if (!err) {
-                                res.json(true);
-                            } else {
-                                res.json(false);
-                            }
+                        Models.Comment.remove({ image_id: image._id},
+                            function(err) {
+                                image.remove(function(err) {
+                                    if (!err) {
+                                        res.json(true);
+                                    } else {
+                                        res.json(false);
+                                    }
+                                });
                         });
-                    });
                 });
             });
     }

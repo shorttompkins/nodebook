@@ -7,17 +7,13 @@ var models = require('../models'),
 module.exports = function(callback) {
 
     async.parallel([
-        function(callback) {
-            models.Image.count({}, function(err, total){
-                callback(null, total);
-            });
+        function(next) {
+            models.Image.count({}, next);
         },
-        function(callback) {
-            models.Comment.count({}, function(err, total){
-                callback(null, total);
-            });
+        function(next) {
+            models.Comment.count({}, next);
         },
-        function(callback) {
+        function(next) {
             models.Image.aggregate({ $group : {
                 _id : '1',
                 viewsTotal : { $sum : '$views' }
@@ -26,10 +22,10 @@ module.exports = function(callback) {
                 if (result.length > 0) {
                     viewsTotal += result[0].viewsTotal;
                 }
-                callback(null, viewsTotal);
+                next(null, viewsTotal);
             });
         },
-        function(callback) {
+        function(next) {
             models.Image.aggregate({ $group : {
                 _id : '1',
                 likesTotal : { $sum : '$likes' }
@@ -38,7 +34,7 @@ module.exports = function(callback) {
                 if (result.length > 0) {
                     likesTotal += result[0].likesTotal;
                 }
-                callback(null, likesTotal);
+                next(null, likesTotal);
             });
         }
     ], function(err, results){

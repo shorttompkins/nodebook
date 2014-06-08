@@ -5,7 +5,7 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     ObjectId = Schema.ObjectId;
 
-var Comment = new Schema({
+var CommentSchema = new Schema({
     image_id:   { type: ObjectId },
     email:      { type: String },
     name:       { type: String },
@@ -14,7 +14,7 @@ var Comment = new Schema({
     timestamp:  { type: Date, 'default': Date.now }
 });
 
-Comment.virtual('image')
+CommentSchema.virtual('image')
     .set(function(image){
         this._image = image;
     })
@@ -22,5 +22,4 @@ Comment.virtual('image')
         return this._image;
     });
 
-
-module.exports = mongoose.model('Comment', Comment);
+module.exports = mongoose.model('Comment', CommentSchema);

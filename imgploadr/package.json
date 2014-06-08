@@ -15,7 +15,7 @@
     "express": "~3.4.2",
     "mongoose": "~3.8.3",
     "express3-handlebars": "~0.5.0",
-    "MD5": "~1.2.0",
+    "MD5": "^1.2.1",
     "moment": "^2.5.1",
     "async": "^0.7.0",
     "connect": "^2.14.4"

@@ -9,14 +9,14 @@ var Stats = require('../helpers/stats'),
 module.exports = function(viewModel, callback){
 
     async.parallel([
-        function(callback) {
-            Stats(callback);
+        function(next) {
+            Stats(next);
         },
-        function(callback) {
-            Images.popular(callback);
+        function(next) {
+            Images.popular(next);
         },
-        function(callback) {
-            Comments.newest(callback);
+        function(next) {
+            Comments.newest(next);
         }
     ], function(err, results){
         viewModel.sidebar = {
@@ -25,6 +25,6 @@ module.exports = function(viewModel, callback){
             comments: results[2]
         };
 
-        callback(null, viewModel);
+        callback(viewModel);
     });
 };

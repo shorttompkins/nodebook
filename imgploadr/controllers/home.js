@@ -2,7 +2,7 @@
 'use strict';
 
 var sidebar = require('../helpers/sidebar'),
-    Images = require('../helpers/images');
+    ImageModel = require('../models').Image;
 
 module.exports = {
     index: function(req, res) {
@@ -11,11 +11,14 @@ module.exports = {
             images: {}
         };
 
-        Images.newest(function(err, images) {
-            viewModel.images = images;
-            sidebar(viewModel, function(err, viewModel) {
-                res.render('index', viewModel);
+        ImageModel.find({}, {}, { sort: { timestamp: -1 }},
+            function(err, images) {
+                if (err) { throw err; }
+
+                viewModel.images = images;
+                sidebar(viewModel, function(viewModel) {
+                    res.render('index', viewModel);
+                });
             });
-        });
     }
 };
