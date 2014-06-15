@@ -1,0 +1,35 @@
+[{
+    "Id": "1",
+    "Title": "Aliens",
+    "Director": "James Cameron",
+    "Year": "1986",
+    "Rating": "8.5"
+},
+{
+    "Id": "2",
+    "Title": "Big Trouble in Little China",
+    "Director": "John Carpenter",
+    "Year": "1986",
+    "Rating": "7.3"
+},
+{
+    "Id": "3",
+    "Title": "Killer Klowns from Outer Space",
+    "Director": "Stephen Chiodo",
+    "Year": "1988",
+    "Rating": "6.0"
+},
+{
+    "Id": "4",
+    "Title": "Heat",
+    "Director": "Michael Mann",
+    "Year": "1995",
+    "Rating": "8.3"
+},
+{
+    "Id": "5",
+    "Title": "The Raid: Redemption",
+    "Director": "Gareth Evans",
+    "Year": "2011",
+    "Rating": "7.6"
+}]
