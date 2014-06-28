@@ -34,16 +34,12 @@ describe('Home Controller', function(){
             expect(ImageModelStub.Image.find).to.be.calledWith({},{},{ sort: { timestamp: -1 }}, sinon.match.func);
         });
         it('should execute sidebar', function(){
-            ImageModelStub.Image.find = function(q,f,o,callback){
-                callback(null, [1,2,3]);
-            };
+            ImageModelStub.Image.find = sinon.stub().callsArgWith(3, null, [1,2,3]);
             home.index(req, res);
             expect(sidebarStub).to.be.calledWith({images: [1,2,3]}, sinon.match.func);
         });
         it('should execute sidebar callback with found images', function(){
-            ImageModelStub.Image.find = function(q,f,o,callback){
-                callback(null, [1,2,3]);
-            };
+            ImageModelStub.Image.find = sinon.stub().callsArgWith(3, null, [1,2,3]);
             sidebarStub.callsArgWith(1, {images: [1,2,3]});
             home.index(req, res);
             expect(res.render).to.be.calledWith('index', {images: [1,2,3]});
