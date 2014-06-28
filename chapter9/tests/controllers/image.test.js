@@ -62,9 +62,8 @@ describe('Image Controller', function(){
         });
         describe('with found image model', function() {
             beforeEach(function(){
-                ModelsStub.Image.findOne = function(q, callback){
-                    callback(null, testImage);
-                };
+                ModelsStub.Image.findOne =
+                    sinon.stub().callsArgWith(1,null,testImage);
             });
             it('should incremement views by 1 and save', function(){
                 image.index(req, res);
@@ -81,17 +80,15 @@ describe('Image Controller', function(){
                 );
             });
             it('should execute sidebar', function(){
-                ModelsStub.Comment.find = function(q,f,o,callback){
-                    callback(null, [1,2,3]);
-                };
+                ModelsStub.Comment.find =
+                    sinon.stub().callsArgWith(3, null, [1,2,3]);
                 image.index(req, res);
                 expect(sidebarStub).to.be.calledWith(
                     {image: testImage, comments: [1,2,3]}, sinon.match.func);
             });
             it('should render image template with image and comments', function(){
-                ModelsStub.Comment.find = function(q,f,o,callback){
-                    callback(null, [1,2,3]);
-                };
+                ModelsStub.Comment.find =
+                    sinon.stub().callsArgWith(3, null, [1,2,3]);
                 sidebarStub.callsArgWith(1, {image: testImage, comments: [1,2,3]});
                 image.index(req, res);
                 expect(res.render).to.be.calledWith('image', {image: testImage, comments: [1,2,3]});
