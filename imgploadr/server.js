@@ -5,7 +5,7 @@ var express = require('express'),
     mongoose = require('mongoose'),
     config = require('./server/configure'),
     app = express();
-    
+
 app.set('port', process.env.PORT || 3300);
 app.set('views', __dirname + '/views');
 
