@@ -1,10 +1,7 @@
-/* jshint node: true */
-'use strict';
-
 var express = require('express'),
-    mongoose = require('mongoose'),
     config = require('./server/configure'),
-    app = express();
+    app = express(),
+    mongoose = require('mongoose');
 
 app.set('port', process.env.PORT || 3300);
 app.set('views', __dirname + '/views');

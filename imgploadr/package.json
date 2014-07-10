@@ -1,7 +1,7 @@
 {
-  "name": "myapp",
+  "name": "imgPloadr",
   "description": "A clone of the imgur.com website",
-  "version": "0.0.1",
+  "version": "0.0.1-7",
   "author": "Jason Krol",
   "engines": {
     "node": "0.10.x"
@@ -25,5 +25,6 @@
     "sinon": "~1.8.1",
     "sinon-chai": "~2.5.0",
     "proxyquire": "~0.5.2"
-  }
+  },
+  "subdomain": "imgploadr"
 }
