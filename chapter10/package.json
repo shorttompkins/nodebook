@@ -1,0 +1,26 @@
+{
+  "name": "chapter9",
+  "version": "0.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "mocha -r tests/testhelper.js -R spec tests/**/*.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^3.5.1",
+    "express3-handlebars": "^0.5.0",
+    "connect": "^2.14.4",
+    "moment": "^2.5.1",
+    "mongoose": "^3.8.12",
+    "MD5": "^1.2.1",
+    "async": "^0.9.0"
+  },
+  "devDependencies": {
+    "sinon-chai": "^2.5.0",
+    "proxyquire": "^1.0.1",
+    "chai": "^1.9.1",
+    "sinon": "^1.10.2"
+  }
+}
